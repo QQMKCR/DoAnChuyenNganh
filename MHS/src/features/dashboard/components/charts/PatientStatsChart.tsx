@@ -1,0 +1,1 @@
+//Biểu đồ số lượng bệnh nhân theo tỉnh.

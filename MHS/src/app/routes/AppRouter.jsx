@@ -1,0 +1,1 @@
+// Định nghĩa toàn bộ các routes của ứng dụng

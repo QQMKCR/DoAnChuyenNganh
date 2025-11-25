@@ -1,0 +1,1 @@
+//Biểu đồ phân bố % nguy cơ.

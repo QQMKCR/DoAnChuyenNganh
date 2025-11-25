@@ -1,0 +1,6 @@
+/*
+Types:
+HeartRiskInput
+HeartRiskResult
+RiskLevel
+*/

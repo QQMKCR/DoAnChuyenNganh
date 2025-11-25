@@ -1,0 +1,1 @@
+//Trang thêm bệnh nhân (quy trình BPMN: Admin → nhập → kiểm tra ID BHYT → lưu).
