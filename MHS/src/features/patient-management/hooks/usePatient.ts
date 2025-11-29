@@ -8,7 +8,7 @@ filter/search
 */
 import { useState, useEffect } from 'react';
 import { patientApi } from '../api/patient.api';
-import { Patient, PatientInput } from '../model/patient.types';
+import type { Patient, PatientInput } from '../model/patient.types';
 
 export const usePatient = () => {
   const [patients, setPatients] = useState<Patient[]>([]);

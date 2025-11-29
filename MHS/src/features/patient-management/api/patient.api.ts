@@ -10,7 +10,19 @@ Tự động:
 Kiểm tra ID BHYT trùng
 Đồng bộ NHIC (nếu có)
 */
-import { Patient, PatientInput, PatientResponse, PatientsListResponse } from '../model/patient.types';
+/*
+Chứa CRUD:
+
+addPatient()
+getPatients()
+updatePatient()
+deletePatient()
+Tự động:
+
+Kiểm tra ID BHYT trùng
+Đồng bộ NHIC (nếu có)
+*/
+import type { Patient, PatientInput, PatientResponse, PatientsListResponse } from '../model/patient.types';
 
 export const patientApi = {
   /**
