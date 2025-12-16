@@ -78,7 +78,7 @@ export const exportPatients = (patients: any[], format: 'csv' | 'json' = 'csv') 
   const exportData = patients.map(patient => ({
     'ID': patient.id,
     'Họ tên': patient.full_name,
-    'Địa chỉ': patient.address,
+    'Địa chỉ': patient.address + ' ' + patient.province,
     'Điện thoại': patient.phone,
     'Ngày sinh': patient.dateOfBirth,
     'Giới tính': patient.gender === 'M' ? 'Nam' : 'Nữ',

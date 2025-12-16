@@ -172,7 +172,7 @@ const PatientDetailPage: React.FC = () => {
                   <p className="text-sm text-gray-600">Địa chỉ</p>
                   <p className="flex items-center">
                     <MapPin className="w-4 h-4 mr-1" />
-                    {patient.address}
+                    {patient.address +" "+ patient.province || 'Chưa có'}
                   </p>
                 </div>
               </div>
@@ -180,7 +180,7 @@ const PatientDetailPage: React.FC = () => {
 
             <Card>
               <h2 className="text-lg font-semibold mb-4">Thông tin y tế</h2>
-              <p>{patient.condition || 'Chưa có dữ liệu'}</p> // Chưa cần bổ sung
+              <p>{patient.condition || 'Chưa có dữ liệu'}</p>
             </Card>
           </div>
 

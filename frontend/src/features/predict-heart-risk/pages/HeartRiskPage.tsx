@@ -5,6 +5,7 @@ import { RiskResultCard } from '../components/RiskResultCard';
 import { useHeartRiskPrediction } from '../hooks/useHeartRiskPrediction';
 import { useHeartRiskValidation } from '../hooks/useHeartRiskValidation';
 import { nhicApi } from '../api/nhic.api';
+import { usePatient } from '../../patient-management/hooks/usePatient';
 import type { HeartRiskInput } from '../model/heartRisk.types';
 
 const HeartRiskPage: React.FC = () => {
@@ -12,9 +13,16 @@ const HeartRiskPage: React.FC = () => {
   const { validate, errors } = useHeartRiskValidation();
   const [saving, setSaving] = useState(false);
 
-  const handleSubmit = async (data: HeartRiskInput) => {
+  // Lấy danh sách bệnh nhân
+  const { patients, loading: patientsLoading, error: patientsError } = usePatient();
+  const [lastSubmittedPatientId, setLastSubmittedPatientId] = useState<string | null>(null);
+
+  const handleSubmit = async (data: HeartRiskInput & { patientId: string }) => {
     // Validate form
     if (!validate(data)) return;
+
+    // Lưu lại patientId đã submit để dùng khi lưu NHIC
+    setLastSubmittedPatientId(data.patientId);
 
     // Gọi API dự đoán
     const res = await predict(data);
@@ -24,13 +32,13 @@ const HeartRiskPage: React.FC = () => {
   };
 
   const handleSaveToNHIC = async () => {
-    if (!result) return;
+    if (!result || !lastSubmittedPatientId) return;
 
     setSaving(true);
     try {
       await nhicApi.savePredictionToNHIC({
-        patientId: 'PT001', // TODO: Lấy patientId thật từ context hoặc route
-        doctorId: 'DR001',   // TODO: Lấy doctorId thật từ context
+        patientId: lastSubmittedPatientId,
+        doctorId: 'DR001', // TODO: Lấy doctorId thật từ context
         prediction: {
           riskPercentage: result.riskPercentage,
           riskLevel: result.riskLevel,
@@ -47,6 +55,7 @@ const HeartRiskPage: React.FC = () => {
 
   const handleReset = () => {
     reset();
+    setLastSubmittedPatientId(null);
   };
 
   return (
@@ -68,8 +77,19 @@ const HeartRiskPage: React.FC = () => {
             </div>
           </div>
 
+          {/* Kiểm tra loading/error khi fetch bệnh nhân */}
+          {patientsLoading && <p>Đang tải danh sách bệnh nhân...</p>}
+          {patientsError && <p className="text-red-500">{patientsError}</p>}
+
           {/* Form nhập dữ liệu */}
-          <HeartRiskForm onSubmit={handleSubmit} loading={loading} errors={errors} />
+          {!patientsLoading && !patientsError && (
+            <HeartRiskForm
+              onSubmit={handleSubmit}
+              loading={loading}
+              errors={errors}
+              patients={patients}
+            />
+          )}
 
           {/* Hiển thị lỗi nếu có */}
           {error && (

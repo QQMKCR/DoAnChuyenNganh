@@ -10,10 +10,10 @@ export interface Patient {
   full_name: string;
   age: number;
   gender: 'Male' | 'Female';
-  province: string;
   phone?: string;
-  email?: string;
   address?: string;
+  province?: string;
+  condition?: string;
   status: 'active' | 'follow-up' | 'discharged';
   heartRiskScore?: number;
   lastVisit: string;
@@ -28,6 +28,8 @@ export interface PatientInput {
   age: number;
   phone?: string;
   address?: string;
+  province?: string;
+  condition?: string;
 }
 
 export interface PatientResponse {
@@ -54,6 +56,8 @@ export interface PatientsBackendResponse {
     date_of_birth: string;
     phone: string;
     address: string;
+    province: string;
+    condition: string;
     created_at: string;
     created_by: number;
   }[];
@@ -69,6 +73,8 @@ export interface PatientBackend {
   date_of_birth: string;
   phone: string;
   address: string;
+  province: string;
+  condition: string;
   created_at: string;
   created_by: number;
 }

@@ -4,10 +4,10 @@ class Patient:
     """Patient model"""
     
     @staticmethod
-    def create(citizen_id, full_name, gender, date_of_birth, phone, address, user_id=None):
+    def create(citizen_id, full_name, gender, date_of_birth, phone, address, province, condition, user_id=None):
         """Create new patient"""
         try:
-            Database.add_patient(citizen_id, full_name, gender, date_of_birth, phone, address, user_id)
+            Database.add_patient(citizen_id, full_name, gender, date_of_birth, phone, address, province, condition, user_id)
             return True
         except Exception as e:
             print(f"Error creating patient: {e}")

@@ -14,6 +14,8 @@ export const usePatient = () => {
   const [patients, setPatients] = useState<Patient[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [searchText, setSearchText] = useState('');
+  const [filteredPatients, setFilteredPatients] = useState<Patient[]>([]);
 
   const fetchPatients = async () => {
     setLoading(true);
@@ -24,7 +26,7 @@ export const usePatient = () => {
       if (response.success) {
         setPatients(response.data);
       }
-    } catch (err) {
+    } catch {
       setError('Không thể tải danh sách bệnh nhân');
     } finally {
       setLoading(false);
@@ -41,7 +43,7 @@ export const usePatient = () => {
         await fetchPatients();
       }
       return response;
-    } catch (err) {
+    } catch {
       setError('Không thể thêm bệnh nhân');
       return { success: false, message: 'Lỗi khi thêm bệnh nhân' };
     } finally {
@@ -59,7 +61,7 @@ export const usePatient = () => {
         await fetchPatients();
       }
       return response;
-    } catch (err) {
+    } catch {
       setError('Không thể cập nhật bệnh nhân');
       return { success: false, message: 'Lỗi khi cập nhật' };
     } finally {
@@ -77,7 +79,7 @@ export const usePatient = () => {
         setPatients((prev) => prev.filter((p) => p.id !== id));
       }
       return response;
-    } catch (err) {
+    } catch {
       setError('Không thể xóa bệnh nhân');
       return { success: false };
     } finally {
@@ -88,11 +90,29 @@ export const usePatient = () => {
   useEffect(() => {
     fetchPatients();
   }, []);
+  useEffect(() => {
+  if (!searchText.trim()) {
+    setFilteredPatients(patients);
+    } else {
+      const lower = searchText.toLowerCase();
+      setFilteredPatients(
+        patients.filter(
+          (p) =>
+            p.full_name.toLowerCase().includes(lower) ||
+            p.citizen_id.toLowerCase().includes(lower) ||
+            p.phone?.toLowerCase().includes(lower)
+        )
+      );
+    }
+  }, [searchText, patients]);
 
   return {
     patients,
     loading,
     error,
+    filteredPatients,
+    searchText,
+    setSearchText,
     fetchPatients,
     addPatient,
     updatePatient,

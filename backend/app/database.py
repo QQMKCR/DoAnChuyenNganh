@@ -126,13 +126,13 @@ class Database:
         return [ _row_to_dict(r) for r in rows ]
 
     @staticmethod
-    def add_patient(citizen_id, full_name, gender , date_of_birth, phone, address, user_id):
+    def add_patient(citizen_id, full_name, gender , date_of_birth, phone, address, province, condition, user_id):
         conn = _get_conn()
         cur = conn.cursor()
         created_at = datetime.now()
-        cur.execute('''INSERT INTO patients (citizen_id, full_name, gender, date_of_birth, phone, address, created_by, created_at)
-                       VALUES (%s, %s, %s, %s, %s, %s, %s, %s)''',
-                    (citizen_id, full_name, gender, date_of_birth, phone, address, user_id, created_at))
+        cur.execute('''INSERT INTO patients (citizen_id, full_name, gender, date_of_birth, phone, `address`, province, `condition`, created_by, created_at)
+                       VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)''',
+                    (citizen_id, full_name, gender, date_of_birth, phone, address, province, condition, user_id, created_at))
         conn.commit()
         patient_id = cur.lastrowid
         conn.close()
@@ -163,12 +163,12 @@ class Database:
     def update_patient(patient_id, **kwargs):
         if not kwargs:
             return False
-        allowed = ['citizen_id','full_name','gender','date_of_birth','phone','address','created_by']
+        allowed = ['citizen_id','full_name','gender','date_of_birth','phone','address', 'province', 'condition', 'created_by']
         sets = []
         params = []
         for k, v in kwargs.items():
             if k in allowed:
-                sets.append(f"{k} = %s")
+                sets.append(f"`{k}` = %s")
                 params.append(v)
 
         if not sets:

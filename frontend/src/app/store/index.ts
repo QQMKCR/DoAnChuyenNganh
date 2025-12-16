@@ -66,7 +66,9 @@ interface Patient {
   full_name: string;
   age: number;
   gender: 'Male' | 'Female';
+  phone: string;
   address: string;
+  province: string;
   condition: string;
   status: 'active' | 'follow-up' | 'discharged';
   heartRiskScore?: number;

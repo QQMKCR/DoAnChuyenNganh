@@ -12,6 +12,7 @@ const DashboardPage = lazy(() => import('../../features/dashboard/pages/Dashboar
 const HeartRiskPage = lazy(() => import('../../features/predict-heart-risk/pages/HeartRiskPage'));
 const PatientListPage = lazy(() => import('../../features/patient-management/pages/PatientListPage'));
 const AddPatientPage = lazy(() => import('../../features/patient-management/pages/AddPatientPage'));
+const EditPatientPage = lazy(() => import('../../features/patient-management/pages/EditPatientPage'));
 const PatientDetailPage = lazy(() => import('../../features/patient-management/pages/PatientDetailPage'));
 const ReportsPage = lazy(() => import('../../features/shared/pages/ReportsPage'));
 const SettingsPage = lazy(() => import('../../features/shared/pages/SettingsPage'));
@@ -37,6 +38,7 @@ const AppRouter: React.FC = () => {
               <Route path={ROUTES.PREDICT_HEART_RISK} element={<HeartRiskPage />} />
               <Route path={ROUTES.PATIENTS} element={<PatientListPage />} />
               <Route path={ROUTES.ADD_PATIENT} element={<AddPatientPage />} />
+              <Route path={ROUTES.EDIT_PATIENT} element={<EditPatientPage />} />
               <Route path={ROUTES.PATIENT_DETAIL} element={<PatientDetailPage />} />
               <Route path={ROUTES.REPORTS} element={<ReportsPage />} />
               <Route path={ROUTES.SETTINGS} element={<SettingsPage />} />

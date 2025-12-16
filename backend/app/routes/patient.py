@@ -12,7 +12,7 @@ def create_patient():
         data = request.get_json()
         
         # Validation
-        required_fields = ['citizen_id','full_name', 'gender', 'date_of_birth', 'phone', 'address']
+        required_fields = ['citizen_id','full_name', 'gender', 'date_of_birth', 'phone', 'address', 'province', 'condition']
         if not all(field in data for field in required_fields):
             return jsonify({'error': 'Missing required fields'}), 400
         
@@ -23,6 +23,8 @@ def create_patient():
             date_of_birth=data['date_of_birth'],
             phone=data['phone'],
             address=data['address'],
+            province=data['province'],
+            condition=data['condition'],
             user_id=request.user['user_id']
         )
         

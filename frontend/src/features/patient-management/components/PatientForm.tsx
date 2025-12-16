@@ -6,7 +6,6 @@ tuổi
 tỉnh
 chỉ số tim mạch
 */
-
 import React, { useState } from 'react';
 import type { PatientInput } from '../model/patient.types';
 
@@ -16,6 +15,7 @@ interface PatientFormProps {
   onCancel: () => void;
   loading?: boolean;
   errors?: Record<string, string>;
+  defaultValues?: PatientInput;
 }
 
 export const PatientForm: React.FC<PatientFormProps> = ({
@@ -24,14 +24,18 @@ export const PatientForm: React.FC<PatientFormProps> = ({
   onCancel,
   loading,
   errors = {},
+  defaultValues,
 }) => {
-  const [formData, setFormData] = useState<PatientInput>({
+  const [formData, setFormData] = useState<PatientInput>(
+    defaultValues ?? {
     citizen_id: initialData?.citizen_id || '',
     full_name: initialData?.full_name || '',
     gender: initialData?.gender || 'Male',
     age: initialData?.age || 0,
     phone: initialData?.phone || '',
     address: initialData?.address || '',
+    province: initialData?.province || '',
+    condition: initialData?.condition || '',
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -113,8 +117,8 @@ export const PatientForm: React.FC<PatientFormProps> = ({
             Tỉnh/Thành phố <span className="text-red-500">*</span>
           </label>
           <select
-            value={formData.address}
-            onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+            value={formData.province}
+            onChange={(e) => setFormData({ ...formData, province: e.target.value })}
             className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
               errors.province ? 'border-red-500' : 'border-gray-300'
             }`}
@@ -132,6 +136,22 @@ export const PatientForm: React.FC<PatientFormProps> = ({
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
+            Địa chỉ
+          </label>
+          <input
+            type="text"
+            value={formData.address}
+            onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+            className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              errors.address ? 'border-red-500' : 'border-gray-300'
+            }`}
+            placeholder="Nhập địa chỉ chi tiết"
+          />
+          {errors.address && <p className="mt-1 text-sm text-red-600">{errors.address}</p>}
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
             Số điện thoại
           </label>
           <input
@@ -139,12 +159,28 @@ export const PatientForm: React.FC<PatientFormProps> = ({
             value={formData.phone}
             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
             className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              errors.phoneNumber ? 'border-red-500' : 'border-gray-300'
+              errors.phone ? 'border-red-500' : 'border-gray-300'
             }`}
             placeholder="0123456789"
           />
           {errors.phone && <p className="mt-1 text-sm text-red-600">{errors.phone}</p>}
         </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Tình trạng sức khỏe
+        </label>
+        <input
+          type="text"
+          value={formData.condition}
+          onChange={(e) => setFormData({ ...formData, condition: e.target.value })}
+          className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+            errors.condition ? 'border-red-500' : 'border-gray-300'
+          }`}
+          placeholder="Nhập tình trạng sức khỏe"
+        />
+        {errors.condition && <p className="mt-1 text-sm text-red-600">{errors.condition}</p>}
       </div>
 
       <div className="flex space-x-3 pt-4">

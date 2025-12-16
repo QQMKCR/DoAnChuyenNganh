@@ -56,10 +56,10 @@ export const patientApi = {
         full_name: String(item.full_name ?? ''),
         age: calculateAge(item.date_of_birth),
         gender: normalizeGender(item.gender),
-        province: '',
-        phoneNumber: String(item.phone ?? ''),
-        email: '',
+        phone: String(item.phone ?? ''),
         address: String(item.address ?? ''),
+        province: String(item.province ?? ''),
+        condition: String(item.condition ?? ''),
         status: 'active',
         heartRiskScore: undefined,
         lastVisit: '',
@@ -104,10 +104,10 @@ export const patientApi = {
         full_name: String(item.full_name ?? ''),
         age: calculateAge(item.date_of_birth),
         gender: normalizeGender(item.gender),
-        province: '',
         phone: String(item.phone ?? ''),
-        email: '',
         address: String(item.address ?? ''),
+        province: String(item.province ?? ''),
+        condition: String(item.condition ?? ''),
         status: 'active',
         heartRiskScore: undefined,
         lastVisit: '',
@@ -137,6 +137,8 @@ export const patientApi = {
         date_of_birth: new Date().getFullYear() - input.age + '-01-01', // ước lượng nếu cần
         phone: input.phone?.trim() || null,
         address: input.address?.trim() || null,
+        province: input.province?.trim() || null,
+        condition: input.condition?.trim() || null,
       };
 
       Object.keys(payload).forEach((key) => {
@@ -163,11 +165,22 @@ export const patientApi = {
 
     try {
       const payload: Record<string, unknown> = { ...input };
+
+      // Chuyển gender
       if (payload.gender) {
         payload.gender = payload.gender === 'Male' ? 'Nam' : 'Nữ';
       }
+
+      // Nếu có age, tạo date_of_birth
+      if (payload.age && typeof payload.age === 'number') {
+        const year = new Date().getFullYear() - payload.age;
+        payload.date_of_birth = `${year}-01-01`; // YYYY-MM-DD
+        delete payload.age; // backend không cần age, chỉ dùng date_of_birth
+      }
+
+      // Loại bỏ giá trị null, undefined hoặc chuỗi rỗng
       Object.keys(payload).forEach((key) => {
-        if (payload[key] === null || payload[key] === undefined || payload[key] === '') {
+        if (payload[key] === null || payload[key] === undefined) {
           delete payload[key];
         }
       });
@@ -186,6 +199,7 @@ export const patientApi = {
       };
     }
   },
+
 
   deletePatient: async (id: string): Promise<PatientResponse> => {
     if (!id) return { success: false, message: 'ID không hợp lệ' };

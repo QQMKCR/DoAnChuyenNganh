@@ -35,7 +35,7 @@ export const validatePatient = (input: PatientInput): PatientValidationResult =>
   }
 
   // Province validation
-  if (!input.address) {
+  if (!input.province) {
     errors.province = 'Tỉnh/Thành phố là bắt buộc';
   }
 

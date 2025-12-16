@@ -137,10 +137,12 @@ def import_data():
                     dob = row.get('date_of_birth')
                     gender = row.get('gender')
                     address = row.get('address')
+                    province = row.get('province')
+                    condition = row.get('condition')
                     created_by = row.get('created_by')
                     # store address in medical_history field
-                    cur.execute('INSERT INTO patients (citizen_id, name, gender, date_of_birth, phone, address, created_by, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-                                (citizen_id, name, gender, dob, phone, address, created_by, datetime_now()))
+                    cur.execute('INSERT INTO patients (citizen_id, name, gender, date_of_birth, phone, address, province, condition, created_by, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                                (citizen_id, name, gender, dob, phone, address, province, condition, created_by, datetime_now()))
                     inserted['patients'] += 1
                 elif table.lower() == 'heartrecords':
                     # two variants: with or without recorded_at

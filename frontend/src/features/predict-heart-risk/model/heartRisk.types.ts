@@ -3,6 +3,7 @@ Types: HeartRiskInput, HeartRiskResult, RiskLevel, MLHeartRiskInput
 */
 
 export interface HeartRiskInput {
+  patientId: string;
   age: number;
   gender: 'Male' | 'Female';        // frontend input
   bloodPressure: number;            // trestbps
